@@ -1,0 +1,33 @@
+<div class="propEl form-group">
+    <label>Default Value</label>
+
+    <div class="input-group">
+        <input type="text" id="defaultValue" name="defaultValue" class="form-control" value='{{=it.defaultValue || ""}}'/>
+        <div class="input-group-addon" onclick="openProfileEditor()"><i class="fa fa-search-plus"></i> </div>
+    </div>
+    <div>
+        <br/>
+    </div>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" id="readonly" name="readonly" value="yes" {{=(it.readonly === 'yes' ? 'checked' :
+            '')}}/>readonly
+        </label>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#readonly').change(function () {
+                if (this.checked && !$('#defaultValue').val()) {
+                    showWarning('Read only control should have a default value');
+                }
+            });
+            $('#defaultValue').on('change keyup cut', function () {
+                if ($('#readonly').prop('checked') && !$('#defaultValue').val()) {
+                    showWarning('Read only control should have a default value');
+                }
+            });
+        });
+
+    </script>
+</div>
+

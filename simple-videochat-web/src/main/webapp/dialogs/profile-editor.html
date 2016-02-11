@@ -1,0 +1,81 @@
+<div class="modal fade" id="modal">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">Profile Editor</h4>
+			</div>
+			<div class="modal-body">
+
+<script type="text/javascript">
+
+	$(document).ready(function() {
+		var profileVal = $("#defaultValue").val();
+		var exists = false;
+		if (profileVal) {
+			$('#userProfileEditorSelect option').each(function() {
+				if (this.value == profileVal) {
+					exists = true;
+				}
+			});
+		}
+		;
+		$select = $("#userProfileEditorSelect").select2();
+		if (profileVal) {
+			$select.select2('val', profileVal);
+		}
+
+	});
+</script>
+<style>
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  float: left;
+  min-width: 160px;
+  padding: 5px 0;
+  margin: 2px 0 0;
+  font-size: 14px;
+  text-align: left;
+  list-style: none;
+  background-color: #fff;
+  -webkit-background-clip: padding-box;
+          background-clip: padding-box;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, .15);
+  border-radius: 4px;
+  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+          box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+}
+</style>
+	
+	<div class="well">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="form-group">
+			 		<label id="userProfileEditorSelectLabel" class="control-label" for="userProfileEditorSelect">Select the profile attribute</label>&nbsp;&nbsp;
+			 		<select id="userProfileEditorSelect" data-tags="true" data-placeholder="type the user profile attribute" class="form-control" style="background-color:inherit;width: 230px; border: 0px solid #ccc;padding: 0px 0px;">
+			 			<option></option>
+			 			<optgroup label="User Attributes">
+							<option value="#user_full_name#">User Full Name</option>
+							<option value="#user_name#">User Name</option>
+							<option value="#user_email#">User Email</option>
+							<option value="#user_mobile#">User Mobile</option>
+						</optgroup>
+			 		</select>
+			 		<label id="userProfileEditorSelectLabel-error" class="error" for="userProfileEditorSelect" style="display:none;"></label>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+<div class="modal-footer">
+	<button type="button" class="btn btn-default" id="modalCancel">Cancel</button>
+	<button type="button" class="btn btn-primary" id="modalOk">Ok</button>
+</div>
+</div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

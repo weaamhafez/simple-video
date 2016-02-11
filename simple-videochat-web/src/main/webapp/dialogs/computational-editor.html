@@ -1,0 +1,66 @@
+<link type="text/css" rel="stylesheet" href="libs/bootstrap/css/bootstrap-suggest.css" >
+<script type="text/javascript" src="libs/bootstrap/js/bootstrap-suggest.js"></script>
+<script type="text/javascript" src="libs/math/math.js"></script>
+<script type="text/javascript" src="dialogs/js/computational-editor.js"></script>
+<style>
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  float: left;
+  min-width: 160px;
+  padding: 5px 0;
+  margin: 2px 0 0;
+  font-size: 14px;
+  text-align: left;
+  list-style: none;
+  background-color: #fff;
+  -webkit-background-clip: padding-box;
+          background-clip: padding-box;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, .15);
+  border-radius: 4px;
+  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+          box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+}
+.dropdown suggest{
+  position: absolute;
+  z-index: 9999999;
+}
+</style>
+<div class="modal fade" id="modal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Computational Editor</h4>
+            </div>
+            <div class="modal-body">
+<table style="width:90%">
+	<tr style="vertical-align: top;">
+		<td> 
+			<div class="form-group">
+		 		<label id="hint" style="color:rgb(94,6,6)"></label>&nbsp;&nbsp;
+			</div>
+			<div class="form-group">
+		 		<label id="computationalEditorLabel" class="control-label" for="computationalEditor"></label>&nbsp;&nbsp;
+		 		<textarea id="computationalEditor" name="computationalEditor" class="form-control" placeholder="Enter Equation +,-,/,*" style="width:100%"></textarea>
+		 		<label id="computationalEditor-error" class="error" for="computationalEditor" style="display:none;"></label>
+			</div>
+			<!-- <div class="form-group">
+		 		<label id="computationalExpressionLabel" class="control-label" for="computationalExpression"></label>&nbsp;&nbsp;
+		 		<input type="text" id="computationalExpression" class="form-control" readonly="readonly" style="width:100%"/>
+			</div> -->
+		</td>
+	</tr>
+</table>
+
+      </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" id="modalCancel">Cancel</button>
+            <button type="button" class="btn btn-primary" id="modalOk">Ok</button>
+        </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

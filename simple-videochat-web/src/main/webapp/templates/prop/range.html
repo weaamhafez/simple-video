@@ -1,0 +1,15 @@
+<h2>Range Properties</h2>
+{{#def.ctrlName}}
+{{#def.title}}
+{{#def.mandatoryOption}}
+<div class="propEl">
+    <label>Max Value</label>
+    <input type="text" class="form-control" name="rangeMaxValue" data-integer="true" value="{{=it.rangeMaxValue || ''}}" data-toggle="tooltip" data-placement="top" title="This takes whole integer value which indicates the upper limit of this range"/>
+</div>
+<div class="propEl">
+    <label>Initial Progress Value</label>
+    <input type="text" class="form-control" name="rangeProgressValue" data-integer="true" value="{{=it.rangeProgressValue || ''}}" data-toggle="tooltip" data-placement="top" title="This takes whole integer value which indicates the initial progress of this range."/>
+</div>
+{{#def.conditionExp}}
+{{#def.dynamicValue}}
+{{#def.commonActions}}

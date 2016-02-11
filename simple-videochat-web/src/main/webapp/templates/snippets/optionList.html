@@ -1,0 +1,52 @@
+<div class="propEl">
+    <label>Option List</label>
+    <select name="optionList" id="optionList" class="form-control">
+	</select>
+</div>
+<div class="propEl">
+  <input type="button" name="optionListManager" value="Option List Manager"  class="btn btn-default"
+  	onclick="openManageListsDialog()" title="Manage option lists"/>
+</div>
+<div class="propEl">
+    <label>Depends On</label>
+    <select name="optionListDenpendOn" id="optionListDenpendOn" class="form-control">
+	</select>
+</div>
+<script>
+$.ajax({
+    url: OPTION_LIST_FIND_ALL_URL,
+    type: 'GET',
+    dataType: 'json',
+    success: function(data) {
+    	for(var i=0;i<data.length;i++) {
+    		$("#prop #optionList").append("<option value='" + data[i].id + "'>" + data[i].name+ "</option>");
+    	}
+    	{{if( it.optionList != 'undefined') { }} 
+    		$('#prop #optionList option[value="{{=it.optionList}}"]').prop('selected', true);
+    	{{ } }}
+    }
+});
+
+
+var selCtrlName = _selItem.data("prop")["ctrlName"];
+$("#prop #optionListDenpendOn").append("<option value=''></option>");
+$("#preview .previewItem").each(function() {
+	var type = $(this).data("type");
+	if(type != "list")
+		return;
+	var prop = $(this).data("prop");
+	var ctrlName = prop["ctrlName"];
+	
+	if(selCtrlName == ctrlName)
+		return;
+	var title = prop["titleEn"];
+	if(title == null || title == "")
+		title = "Untitled";
+	
+	title = ctrlName + "/" + title; 
+	$("#prop #optionListDenpendOn").append("<option value='" + prop["ctrlName"] + "'>" + title+ "</option>");
+});
+{{if( it.optionListDenpendOn != 'undefined') { }} 
+	$('#prop #optionListDenpendOn option[value="{{=it.optionListDenpendOn}}"]').prop('selected', true);
+{{ } }}
+</script>

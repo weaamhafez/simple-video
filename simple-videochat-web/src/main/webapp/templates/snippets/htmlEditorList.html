@@ -1,0 +1,26 @@
+<div class="propEl">
+    <label>Editor List</label>
+    <select name="htmlEditorList" id="htmlEditorList" class="form-control">
+	</select>
+</div>
+<div class="propEl">
+  <input type="button" name="optionListManager" value="Editor Manager"  class="btn btn-default"
+  	onclick="openManageHTMLEditorDialog()" title="Manage Editor"/>
+</div>
+<script type="text/javascript">
+$.ajax({
+    url: EDITOR_DATA_FIND_ALL_URL,
+    type: 'GET',
+    dataType: 'json',
+    success: function(data) {
+    	$("#prop #htmlEditorList").append("<option value=''></option>");
+    	for(var i=0;i<data.length;i++) {
+    		$("#prop #htmlEditorList").append("<option value='" + data[i].id + "'>" + data[i].name+ "</option>");
+    	}
+    	{{if( it.htmlEditorList != 'undefined') { }} 
+    		$('#prop #htmlEditorList option[value="{{=it.htmlEditorList}}"]').prop('selected', true);
+    	{{ } }}
+
+    }
+});
+</script>

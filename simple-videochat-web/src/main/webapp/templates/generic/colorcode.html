@@ -1,0 +1,33 @@
+
+<tr style="vertical-align: baseline;" class="tablesorter-childRow">
+	<td style="white-space: nowrap;" class="editableCol"   onblur="blurCell()" onclick="editCell($(this))">
+		<div class='editableCell'>
+			<select>
+				{{?it.color === "red"}} 
+				<option value="red" style="background-color: #FF0000;" selected >Red</option>
+				{{??}} 
+				<option value="red" style="background-color: #FF0000;" >Red</option>
+				{{?}} 
+				{{?it.color === "yellow"}} 
+				<option value="yellow" style="background-color: #FFFF00;" selected>Yellow</option>
+				{{??}} 
+				<option value="yellow" style="background-color: #FFFF00;" >Yellow</option>
+				{{?}} 
+				{{?it.color === "green"}} 
+				<option value="green" style="background-color: #007700;" selected>Green</option>
+				{{??}} 
+				<option value="green" style="background-color: #007700;">Green</option>
+				{{?}} 
+			</select>
+		</div>
+	</td>
+	<td style="white-space: nowrap;" class="editableCol"  onblur="blurCell()" onclick="editCell($(this))" >
+		{{=it.min || ''}}
+	</td>
+	<td style="white-space: nowrap;" class="editableCol"  onblur="blurCell()" onclick="editCell($(this))" >
+		{{=it.max || ''}}
+	</td>
+	<td>
+		<button onclick="deleteRow($(this))"><i class="fa fa-times"></i></button>
+	</td>	
+</tr>

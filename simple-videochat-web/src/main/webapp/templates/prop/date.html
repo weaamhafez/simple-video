@@ -1,0 +1,23 @@
+<h2>Date/Time Properties</h2>
+{{#def.ctrlName}}
+{{#def.title}}
+{{#def.mandatoryOption}}
+
+<div class="propEl">
+	<label>Date/Time</label>
+    <div class="radio">
+	<label>
+  	<input type="radio" name="dateTimeOption" value="date" checked> Show Date</label> only <!-- Default -->
+        </div>
+    <div class="radio">
+	<label>
+	<input type="radio" name="dateTimeOption" value="time" {{=(it.dateTimeOption === 'time' ? 'checked' : '')}}> Show Time only</label></div>
+    <div class="radio">
+	<label>
+	<input type="radio" name="dateTimeOption"value="both" {{=(it.dateTimeOption === 'both' ? 'checked' : '')}}> Show both Data/Time</label></div>
+</div>
+		
+
+{{#def.conditionExp}}
+{{#def.dynamicValue}}
+{{#def.commonActions}}

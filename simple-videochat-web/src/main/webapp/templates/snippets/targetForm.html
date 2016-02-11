@@ -1,0 +1,38 @@
+<div class="propEl">
+    <label>Target Form</label>
+    <select id="formsList" class="form-control" name="formsList">
+	</select>
+</div>
+<script type="text/javascript">
+$("#prop #formsList").empty();
+$.ajax({
+    url: FORM_DESIGN_FINDALL_URL,
+    type: 'GET',
+    dataType: 'json',
+    success: function(data) {
+    	/* $("#prop #formsList").append("<option value=''></option>"); */
+    	for(var i=0;i<data.length;i++) {
+    		$("#prop #formsList").append("<option value='" + data[i].formId + "' type='form'>" + data[i].name+ "</option>");
+    	}
+    	{{if( it.formsList != 'undefined') { }} 
+    		$('#prop #formsList option[value="{{=it.formsList}}"]').prop('selected', true);
+    	{{ } }}
+
+    }
+});
+$.ajax({
+    url: FORM_DESIGN_FINDALL_VISUALIZATION_URL,
+    type: 'GET',
+    dataType: 'json',
+    success: function(data) {
+    	/* $("#prop #formsList").append("<option value=''></option>"); */
+    	for(var i=0;i<data.length;i++) {
+    		$("#prop #formsList").append("<option value='" + data[i].visualizationId + "' type='visualization'>" + data[i].titleEn+ "</option>");
+    	}
+    	{{if( it.formsList != 'undefined') { }} 
+    		$('#prop #formsList option[value="{{=it.formsList}}"]').prop('selected', true);
+    	{{ } }}
+
+    }
+});
+</script>

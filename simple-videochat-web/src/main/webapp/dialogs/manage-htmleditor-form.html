@@ -1,0 +1,107 @@
+<div class="modal fade" id="modal">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">Editor Manager</h4>
+			</div>
+			<div class="modal-body">
+
+<style>
+.alert-success{color:#3c763d;background-color:#dff0d8;border-color:#d6e9c6;font-size: 20}
+.alert-success hr{border-top-color:#c9e2b3}
+.alert-success {color:#2b542c}
+.alert-dismissible{padding-right:35px}
+.alert-dismissible{position:relative;top:-2px;right:-21px;color:inherit}
+</style>
+<div class="alert alert-success alert-dismissible fade in" role="alert" id="success-alert"
+	style="display: none;">
+	<strong></strong>
+	<div id="message" style="font-size: 16px"></div>
+</div>
+<div class="alert alert-danger alert-dismissible fade in" role="alert" id="error-alert"
+	style="display: none;">
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		<span aria-hidden="true">!!</span>
+	</button>
+	<strong>!</strong>
+	<div id="message" style="font-size: 16px"></div>
+</div>
+<div>
+	 Enter Editor Name: &nbsp;&nbsp;<input type="text" class="form-control" id="editorName" required/>
+	<br>
+</div>
+<textarea rows="20" class="form-control" id="htmleditor" style="display:none; height:350px"></textarea>
+
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" id="modalCancel">Cancel</button>
+				<button type="button" class="btn btn-default" id="modalOk">Ok</button>
+				<button type="button" class="btn btn-primary" id="modalSave">Save</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<script>
+$(document).ready(function() {
+
+
+	initRedactor = function () {
+		var buttons = ['html', '|', 'formatting', '|', 'bold', 'italic', 'deleted', 'underline', '|', 'unorderedlist', 'orderedlist', 'outdent', 'indent', '|', 'table', 'link', '|', 'fontcolor', 'backcolor', '|', 'alignment', '|', 'horizontalrule', '|', 'image'];
+	$('#htmleditor').redactor({
+			buttons: buttons
+		});
+	}
+
+	getEditorData(initRedactor);
+
+    });
+    
+    
+    function saveEditorData()
+    {
+    	var list = {
+				name : $("#htmlEditorList").val(),
+				options:[]
+		}
+    	var dataValue = {
+	            "value" : $('#htmleditor').val(),
+	            "name" : $("#editorName").val()
+	        };
+    	$.ajax({
+		    url: $('#htmlEditorList').val() == "" ? EDITOR_DATA_SAVE_URL : EDITOR_DATA_UPDATE_URL + "/" + $("#htmlEditorList").val(),
+		    type: 'POST',
+		    data: JSON.stringify(dataValue),
+		    contentType: 'application/json; charset=utf-8',
+		    dataType: 'text',
+		    //async: false,
+		    success: function(formId) {
+		    	console.log("success");
+		    	if( $('#htmlEditorList option[value="' + $("#htmlEditorList").val() + '"]').length  == 0)
+	    		{
+		    		var option = {
+				            "value" : $('#htmleditor').val(),
+				            "labelEn" : $("#builder_iframe").contents().find("input[name='titleEn']").val(),
+				            "labelAr" : $("#builder_iframe").contents().find("input[name='titleAr']").val()
+				        };
+					list.options.push(option);
+	    		}
+		    	
+				$('#success-alert #message').html(editorSavedSuccess);
+				$("#success-alert").alert();
+				$("#success-alert").show().delay(1000).addClass("in").slideUp(500);
+		    },
+		    error: function()
+		    {
+		    	$('#error-alert #message').html(editorSavedError);
+				$("#error-alert").alert();
+				$("#error-alert").show().delay(1000).addClass("in").slideUp(500);
+		    }
+		});
+    }
+ </script>
+	
+	

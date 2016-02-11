@@ -1,0 +1,97 @@
+<div class="modal fade" id="modal">
+	<div class="modal-dialog" style="width: 1050px;">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">Option list dbmodel</h4>
+			</div>
+			<div class="modal-body">
+
+<div id="option-list-dbmodel-dialog">
+	<style>
+		.mytable td {
+			padding-left: 5px;
+		}
+	</style>
+
+	<table class="mytable">
+		<!--<thead>
+
+        </thead>-->
+		<tbody option-list-dbmodel>
+
+		</tbody>
+	</table>
+	<table>
+		<tr>
+			<td>
+				<button type="button" class="btn btn-primary"  role="add-row">Add option</button>
+			</td>
+		</tr>
+	</table>
+
+	<table style="display: none;">
+		<tr option-list-dbmodel-empty-container style="display: none;">
+			<td colspan="5">
+				<table class="tablesorter-green">
+					<thead class="tablesorter-header-inner">
+					<tr style="vertical-align: baseline;">
+						<th style="white-space: nowrap;width:140px" class="tablesorter-header">Name</th>
+						<th style="white-space: nowrap;width:210px" class="tablesorter-header">Db model</th>
+						<th style="white-space: nowrap;width:210px" class="tablesorter-header">Id field</th>
+						<th style="white-space: nowrap;width:210px" class="tablesorter-header">Title English</th>
+						<th style="white-space: nowrap;width:210px" class="tablesorter-header">Title Arabic</th>
+						<th style="white-space: nowrap;width:210px" class="tablesorter-header">Actions</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr option-row style="vertical-align: baseline;">
+						<td style="white-space: nowrap;">
+							<input type="hidden" role="id"/>
+							<input type="text" class="form-control" role="name" style="width: 135px;" placeholder="Name"/>
+						</td>
+						<td>
+							<div role="dbModel"
+								 select2-url="datasource/db/model/db_model/select2"></div>
+						</td>
+						<td>
+							<input type="text" role="idField" name="idField" data-required="true" maxlength="50" style="display: none; width: 200px;" placeholder="Id field"/>
+						</td>
+						<td>
+							<input type="text" role="enTitleField" name="enTitleField" data-required="true" maxlength="50" style="display: none; width: 200px;" placeholder="Eng title"/>
+						</td>
+						<td>
+							<input type="text" role="arTitleField" name="arTitleField" data-required="true" maxlength="50" style="display: none; width: 200px;" placeholder="Ar title"/>
+						</td>
+						<td>
+							<button type="button" class="btn btn-danger" role="removeRow">Remove</button>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="6">
+							<div>
+								Condition value (not required)
+							</div>
+							<div role="rule"></div>
+						</td>
+					</tr>
+					</tbody>
+				</table>
+				<hr>
+			</td>
+
+		</tr>
+	</table>
+
+</div>
+
+
+</div>
+<div class="modal-footer">
+	<button type="button" class="btn btn-default" id="modalCancel">Cancel</button>
+	<button type="button" class="btn btn-primary" id="modalOk">Ok</button>
+</div>
+</div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+

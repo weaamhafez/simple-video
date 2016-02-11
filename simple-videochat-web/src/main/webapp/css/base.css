@@ -1,0 +1,12 @@
+#wrapper {
+	height: 93vh !important;
+}
+#page-wrapper {
+	height: 93vh !important;
+	overflow: auto !important;
+}
+
+body {
+	overflow-y: hidden !important;
+	overflow-x: hidden !important;
+}

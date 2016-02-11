@@ -1,0 +1,14 @@
+<h2>List Properties</h2>
+{{#def.ctrlName}}
+{{#def.title}}
+{{#def.mandatoryOption}}
+{{#def.searchableOption}}
+<div class="propEl">
+	<label>Selection Mode</label>
+  	<input type="radio" name="listSelectMode" value="single" checked> Single Select<br> <!-- Default -->
+	<input type="radio" name="listSelectMode" value="multiple" {{=(it.listSelectMode === 'multiple' ? 'checked' : '')}}> Multiple Select<br>
+</div>
+{{#def.optionList}}
+{{#def.conditionExp}}
+{{#def.dynamicValue}}
+{{#def.commonActions}}

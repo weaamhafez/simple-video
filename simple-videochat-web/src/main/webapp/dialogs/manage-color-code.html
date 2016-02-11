@@ -1,0 +1,98 @@
+<script type="text/javascript" src="dialogs/js/color-code.js"></script>
+<style>
+.alert-success{color:#3c763d;background-color:#dff0d8;border-color:#d6e9c6;font-size: 20}
+.alert-success hr{border-top-color:#c9e2b3}
+.alert-success {color:#2b542c}
+.alert-dismissible{padding-right:35px}
+.alert-dismissible{position:relative;top:-2px;right:-21px;color:inherit}
+.alert-danger{color: #76161e;background-color: #ffffff;border-color: #ffffff;font-size: 20}
+.alert-danger hr{border-top-color:#ffffff}
+.alert-danger {color:#76161e}
+@font-face {
+    font-family: 'Glyphicons Halflings';
+    src: url(libs/bootstrap/fonts/glyphicons-halflings-regular.eot);
+    src: url(libs/bootstrap/fonts/glyphicons-halflings-regular.eot?#iefix) format('embedded-opentype'), url(libs/bootstrap/fonts/glyphicons-halflings-regular.woff2) format('woff2'), url(libs/bootstrap/fonts/glyphicons-halflings-regular.woff) format('woff'), url(libs/bootstrap/fonts/glyphicons-halflings-regular.ttf) format('truetype'), url(libs/bootstrap/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular) format('svg')
+}
+.glyphicon {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale
+}
+.glyphicon-plus:before{content:"\2b"}
+.glyphicon-remove:before{content:"\e014"}
+</style>
+
+<div class="modal fade" id="modal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Color Code Manager</h4>
+            </div>
+            <div class="modal-body">
+
+<div class="alert alert-success alert-dismissible fade in" role="alert" id="success-alert"
+	style="display: none;">
+	<strong></strong>
+	<div id="message" style="font-size: 16px"></div>
+</div>
+<div class="alert alert-danger alert-dismissible fade in" role="alert" id="error-alert"
+	style="display: none;">
+	<div id="message" style="font-size: 16px"></div>
+</div>
+<table>
+	<tr style="vertical-align: top;">
+		<td style="padding-left: 15px;"> 
+			<table>
+				<tr>
+					<td>
+						<table id="colorCodeTable" class="tablesorter-green table table-hover">
+							<thead class="tablesorter-header-inner">
+								<tr style="vertical-align: baseline;">
+									<th style="white-space: nowrap;width:150px" class="tablesorter-header">
+										Color
+									</th>
+									<th style="white-space: nowrap;width:150px" class="tablesorter-header">
+										Min Range
+									</th>
+									<th style="white-space: nowrap;width:150px" class="tablesorter-header">
+										Max Range
+									</th>
+									<th class="tablesorter-header"></th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+				<tr id="option-list-add-empty-row">
+					<td>
+						<div>
+				           <a href="javascript:void(0)" role="button" onclick="addEmptyRow()" title="Add Row" class="btn btn-success" style="font-stretch: condensed;text-decoration: blink;">
+				              <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Add Color
+				            </a>
+			          </div>
+					</td>
+				</tr>
+			</table>
+		</td>	<!--  End of right table -->
+	</tr>
+</table>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-default" id="modalOk">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+	
+	

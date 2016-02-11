@@ -1,0 +1,456 @@
+<style>
+.alert-success{color:#3c763d;background-color:#dff0d8;border-color:#d6e9c6;font-size: 20}
+.alert-success hr{border-top-color:#c9e2b3}
+.alert-success {color:#2b542c}
+.alert-dismissible{padding-right:35px}
+.alert-dismissible{position:relative;top:-2px;right:-21px;color:inherit}
+.alert-danger{color: #76161e;background-color: #ffffff;border-color: #ffffff;font-size: 20}
+.alert-danger hr{border-top-color:#ffffff}
+.alert-danger {color:#76161e}
+@font-face {
+    font-family: 'Glyphicons Halflings';
+    src: url(libs/bootstrap/fonts/glyphicons-halflings-regular.eot);
+    src: url(libs/bootstrap/fonts/glyphicons-halflings-regular.eot?#iefix) format('embedded-opentype'), url(libs/bootstrap/fonts/glyphicons-halflings-regular.woff2) format('woff2'), url(libs/bootstrap/fonts/glyphicons-halflings-regular.woff) format('woff'), url(libs/bootstrap/fonts/glyphicons-halflings-regular.ttf) format('truetype'), url(libs/bootstrap/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular) format('svg')
+}
+.glyphicon {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale
+}
+.glyphicon-plus:before{content:"\2b"}
+.glyphicon-remove:before{content:"\e014"}
+
+.td-width {
+	/*white-space: nowrap;*/
+	min-width: 20%;
+}
+</style>
+
+<div class="modal fade" id="modal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Option List Manager</h4>
+            </div>
+            <div class="modal-body">
+
+<div class="alert alert-success alert-dismissible fade in" role="alert" id="success-alert"
+	style="display: none;">
+	<strong></strong>
+	<div id="message" style="font-size: 16px"></div>
+</div>
+<div class="alert alert-danger alert-dismissible fade in" role="alert" id="error-alert"
+	style="display: none;">
+	<div id="message" style="font-size: 16px"></div>
+</div>
+<table>
+	<tr style="vertical-align: top;">
+		<td style="white-space: nowrap;"> <!--  Col-1 Outer -->
+			<select size="20" style="width:150px" class="form-control" id="optionListsNameCtrl" onchange="loadListData($(this).val())">
+			</select>
+		</td>
+		<td style="padding-left: 15px;width: 100%;"> <!--  Col-2 Outer -->
+			<table style="width: 100%">
+				<tr>
+					<td>
+						<div>
+							<a href="javascript:void(0)" role="button" onclick="newList()" title="Add List" class="btn btn-success" style="font-stretch: condensed;text-decoration: blink;">
+				              <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>New List
+				            </a>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" style="padding-top: 20px;padding-bottom: 20px;">
+						<div class="form-inline">
+							<b>List Name:</b> &nbsp;&nbsp;<input type="text" class="form-control" id="optionListNameCtrl" name="" value=""/>&nbsp;&nbsp;<a href="javascript:void(0)" role="button" onclick="deleteList()" title="Add List" class="btn btn-danger" style="font-stretch: condensed;text-decoration: blink;">
+							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>Delete List
+						</a>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<table id="listsTable" class="tablesorter-green table table-hover">
+							<thead class="tablesorter-header-inner">
+								<tr style="vertical-align: baseline;">
+									<th class="tablesorter-header td-width">
+										Value
+									</th>
+									<th class="tablesorter-header td-width">
+										Title(English)
+									</th>
+									<th class="tablesorter-header td-width">
+										Title(Arabic)
+									</th>
+									<th class="tablesorter-header td-width">
+										Parent Value
+									</th>
+									<th class="tablesorter-header"></th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+				<tr id="option-type-dbmodel">
+					<td colspan="2" style="padding-top: 20px;padding-bottom: 20px;">
+						<div class="form-inline">
+							<b>Option type:</b><input type="text" class="form-control" readonly value="Data link"/>
+						</div>
+					</td>
+				</tr>
+				<tr id="option-list-add-empty-row">
+					<td>
+						<div>
+				           <a href="javascript:void(0)" role="button" onclick="addEmptyRow()" title="Add Row" class="btn btn-success" style="font-stretch: condensed;text-decoration: blink;">
+				              <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Add Row
+				            </a>
+			          </div>
+					</td>
+				</tr>
+			</table>
+		</td>	<!--  End of right table -->
+	</tr>
+</table>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-default" id="modalOk">Ok</button>
+				<button type="button" class="btn btn-primary" id="modalSave">Save</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script>
+	function loadAllLists()
+	{
+		$("#optionListsNameCtrl").empty();
+		$.ajax({
+		    url: OPTION_LIST_FIND_ALL_URL,
+		    type: 'GET',
+		    dataType: 'json',
+		    //async: false,
+		    success: function(data) {
+		    	for(var i=0;i<data.length;i++) {
+		    		$("#optionListsNameCtrl").append("<option value='" + data[i].id + "'>" + data[i].name+ "</option>");
+		    	}
+		    	if(data.length > 0)
+	    		{
+		    		if(isEmpty(__selListId))
+	    			{
+	    				$("#optionListsNameCtrl option:first").attr("selected","selected");
+	    			}
+		    		else
+		    			$("#optionListsNameCtrl option[value=" + __selListId + "]").attr("selected","selected");
+		    		$("#optionListsNameCtrl").triggerHandler("change");
+	    		}
+		    }
+		});
+	}
+	var __currentEditableCell = null;
+	var __selListId = null;
+	loadAllLists();
+
+	function loadListData(id) {
+		//if(!confirm("Current List is not saved , proceed anyway"))
+		//	return;
+		if(isEmpty(id))	{
+			__selListId = null;
+			var listName = $("#optionListsNameCtrl").find(":selected").text();
+			$("#optionListNameCtrl").val(listName);
+	    	$("#listsTable tbody").empty();
+	    	return;
+		}
+
+		$.ajax({
+		    url: OPTION_LIST_FIND_URL+'/' + id,
+		    type: 'GET',
+		    dataType: 'json',
+		    //async: false,
+		    success: function(data) {
+		    	__selListId = id;
+				$("#optionListNameCtrl").val(data.name);
+
+				updateUiAccordingType(data.type);
+				if (data.type != 'dbModel') {
+					for(var i=0;i<data.options.length;i++) {
+						addRow(data.options[i]);
+					}
+					if(data.options.length == 0)
+					{
+						addEmptyRow();
+					}
+				}
+
+
+
+
+				}
+		});
+	}
+	
+	function addRow(optionJson) {
+		var tempFn = _genericTemplates["listrow"];
+		var result = tempFn(optionJson);
+		$("#listsTable tbody").append(result);
+	}
+	
+	function addEmptyRow() {
+		var tempFn = _genericTemplates["listrow"];
+		var result = tempFn({});
+		$("#listsTable tbody").append(result);
+		$("#listsTable tbody").find("tr").filter(":last").find("td").filter(":first").focus();
+		$("#listsTable tbody").find("tr").filter(":last").find("td").filter(":first").triggerHandler("click");
+	}
+	
+	
+	function editCell(el) {
+		//var el = $("#"+id);
+		if(el.find(".editableCell").length == 0) {
+			var text = el.text().trim();
+			el.html("<div class='editableCell'><input type='textbox' value='" + text + "' title='For navigating between cells, use Tab / ctrl+arrow keys' /></div>");
+			el.find("input").focus();
+			el.find("input").keydown(function(e) {
+				// tab/right arrow
+				if(e.keyCode == 9 || (e.keyCode == 39 && e.ctrlKey))
+				{
+					e.preventDefault();
+		            e.stopPropagation();
+					if(__currentEditableCell != null)
+					{
+						var nextCell = __currentEditableCell.next("td") ;
+						if(nextCell != null)
+						{
+							// if last cell and last row then add new row
+							if($(nextCell).children().html() != undefined && $(nextCell).parent().next().html() == undefined)
+							{
+								addEmptyRow();
+							}
+							// if last cell in row , but not last row in table, then move to next row
+							else if($(nextCell).children().html() != undefined && $(nextCell).parent().next().html() != undefined)
+							{
+								if(__currentEditableCell != null) {
+									__currentEditableCell.html(__currentEditableCell.find("input").filter(":first").val());
+								}
+								__currentEditableCell = el;
+								nextCell = $(nextCell).parent().next().find("td").filter(":first");
+								nextCell.triggerHandler("click");
+								return;
+							}
+							else
+			    			{
+								if(__currentEditableCell != null) {
+									__currentEditableCell.html(__currentEditableCell.find("input").filter(":first").val());
+								}
+								__currentEditableCell = el;
+								nextCell.triggerHandler("click");
+								return;
+			    			}
+						}
+						
+					}
+		    		
+				}
+				// left arrow
+				else if(e.keyCode == 37 && e.ctrlKey)
+				{
+					e.preventDefault();
+		            e.stopPropagation();
+					var nextCell = __currentEditableCell.prev("td") ;
+					if(nextCell.html() != undefined)
+					{
+						if(__currentEditableCell != null) {
+							__currentEditableCell.html(__currentEditableCell.find("input").filter(":first").val());
+						}
+						__currentEditableCell = el;
+						nextCell.triggerHandler("click");
+					}
+				} 
+				// up arrow, go to same cell in prev row
+				else if(e.keyCode == 38 && e.ctrlKey)
+				{
+					e.preventDefault();
+		            e.stopPropagation();
+					var currentRow = __currentEditableCell.parent();
+					if(currentRow.prev().html() != undefined)
+					{
+						var columnIndexOfCurrentCell = currentRow.children().index(__currentEditableCell);
+						var nextCell = currentRow.prev().children("td")[columnIndexOfCurrentCell] ;
+						if($(nextCell).html() != undefined)
+						{
+							if(__currentEditableCell != null) {
+								__currentEditableCell.html(__currentEditableCell.find("input").filter(":first").val());
+							}
+							__currentEditableCell = el;
+							$(nextCell).triggerHandler("click");
+						}
+					}
+				}
+				// down arrow , go to same cell in next row
+				else if(e.keyCode == 40 && e.ctrlKey)
+				{
+					e.preventDefault();
+		            e.stopPropagation();
+					var currentRow = __currentEditableCell.parent();
+					if(currentRow.next().html() != undefined)
+					{
+						var columnIndexOfCurrentCell = currentRow.children().index(__currentEditableCell);
+						var nextCell = currentRow.next().children("td")[columnIndexOfCurrentCell] ;
+						if($(nextCell).html() != undefined)
+						{
+							if(__currentEditableCell != null) {
+								__currentEditableCell.html(__currentEditableCell.find("input").filter(":first").val());
+							}
+							__currentEditableCell = el;
+							$(nextCell).triggerHandler("click");
+						}
+					}
+				}
+			});
+			el.find("input").keypress(function(e) {
+			    if(e.which == 13) {
+			    	__currentEditableCell.html(__currentEditableCell.find("input").filter(":first").val());
+			    	__currentEditableCell = null;
+			    }
+			});
+			if(__currentEditableCell != null) {
+				__currentEditableCell.html(__currentEditableCell.find("input").filter(":first").val());
+			}
+			__currentEditableCell = el;
+		}
+		
+	}
+	
+	function blurCell()
+	{
+		if(__currentEditableCell != null)
+		{
+			__currentEditableCell.html(__currentEditableCell.find("input").filter(":first").val());
+			__currentEditableCell = null;
+		}
+	}
+
+	
+	
+	
+	function deleteRow(el) {
+		el.closest("tr").remove();
+	}
+	
+	
+	function saveList() {
+		blurCell();
+		var list = {
+				name : $("#optionListNameCtrl").val(),
+				options:[]
+		}
+		$("#listsTable tbody tr").each(function() {
+			var value = $(this).find("td:nth-child(1)").text();
+			var labelEn = $(this).find("td:nth-child(2)").text();
+			var labelAr = $(this).find("td:nth-child(3)").text();
+			var parent = $(this).find("td:nth-child(4)").text();
+			
+			var option = {
+		            "value" : value,
+		            "labelEn" : labelEn,
+		            "labelAr" : labelAr,
+		            "parent" : parent	
+		        };
+			list.options.push(option);
+			
+		});
+		$.ajax({
+		    url: __selListId == null ? OPTION_LIST_SAVE_URL :  OPTION_LIST_UPDATE_URL+'/' + __selListId,
+		    type: 'POST',
+		    data: JSON.stringify(list),
+		    contentType: 'application/json; charset=utf-8',
+		    dataType: 'text',
+		    //async: false,
+		    success: function(listId) {
+		    	__selListId = listId;
+		    	$('#success-alert #message').html(listSavedSuccess);
+				$("#success-alert").alert();
+				$("#success-alert").show().delay(1000).addClass("in").slideUp(500);
+		    },
+		    error: function()
+		    {
+		    	$('#error-alert #message').html(listSavedError);
+				$("#error-alert").alert();
+				$("#error-alert").show().delay(5000).addClass("in").slideUp(500);
+		    }
+		});
+		loadAllLists();
+		//alert(JSON.stringify(list));
+	}
+
+	function updateUiAccordingType(type) {
+		var $optionListNameCtrl = $("#optionListNameCtrl");
+		var $optionDbModel = $('#option-type-dbmodel');
+		var $listsTable = $("#listsTable");
+		var $listsTableTbody = $listsTable.find("tbody");
+		var $optionAddEmptyRow = $('#option-list-add-empty-row');
+		var $modalSave = $('#modalSave');
+
+		if (type == 'dbModel') {
+			$optionDbModel.show();
+			$listsTable.hide();
+			$optionAddEmptyRow.hide();
+			$modalSave.prop('disabled', true);
+			$optionListNameCtrl.prop('readonly', true);
+		} else {
+			$optionDbModel.hide();
+			$listsTable.show();
+			$listsTableTbody.empty();
+			$optionAddEmptyRow.show();
+			$modalSave.removeProp('disabled');
+			$optionListNameCtrl.removeProp('readonly');
+		}
+	}
+
+
+	function newList() {
+		updateUiAccordingType('');
+		$("#optionListsNameCtrl").append("<option value='' selected='selected'>Untitled</option>");
+		$("#optionListsNameCtrl").triggerHandler("change");
+		addEmptyRow();
+	}
+	function deleteList() {
+		$.ajax({
+			url: OPTION_LIST_DELETE_URL+'/' + __selListId,
+			type: 'POST',
+			success: function() {
+				__selListId = null;
+				var listName = $("#optionListsNameCtrl").find(":selected").text();
+				$("#optionListNameCtrl").val(listName);
+				$("#listsTable tbody").empty();
+				$('#success-alert #message').html(listDeletedSuccess);
+				$("#success-alert").alert();
+				$("#success-alert").show().delay(1000).addClass("in").slideUp(500);
+			},
+			error: function (request, status, error)
+			{
+				$('#error-alert #message').html(request.responseText);
+				$("#error-alert").alert();
+				$("#error-alert").show().delay(7000).addClass("in").slideUp(500);
+			}
+		});
+		loadAllLists();
+	}
+	
+	
+
+	
+</script>
+	
+	

@@ -1,0 +1,77 @@
+<div class="modal fade" id="modal">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">New Form</h4>
+			</div>
+			<div class="modal-body">
+
+				<label>Form Name :</label>
+				<input id="formNameTxtCtrl" class="form-control" type="text" value="" data-required="true" maxlength="30"/>
+
+
+                <div class="checkbox">
+                    <label>
+                        <input id="duplicateFormCtrl"  type="checkbox" value="yes" onchange="loadExistingForms($(this).is(':checked'));"/>Use existing</label>
+                </div>
+
+				<div id="existingFormsRow" style="display:none">
+						<label>Forms :</label>
+						<select id="existingFormCtrl" class="form-control" style="width: 100%">
+							<option value="">List of values</option>
+						</select>
+				</div>
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary" onclick="Ok(event)">Ok</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script type="application/javascript">
+	function loadExistingForms(checked) {
+		if(checked) {
+            $("#existingFormsRow").show();
+			$.ajax({
+			    url: 'client/design/form/findAll',
+			    type: 'GET',
+			    dataType: 'json',
+			    success: function(data) {
+			    	var el = $("#existingFormCtrl");
+			    	el.empty();
+			    	for(var i=0;i<data.length;i++)
+			    		el.append("<option value='" + data[i].formId + "'>" + data[i].name  + "</option>");
+                    $("#existingFormCtrl").removeClass('form-control');
+			    	el.select2();
+			    }
+			});
+		}
+		else {
+			$("#existingFormsRow").hide();
+		}
+	}
+
+	function Ok(event) {
+		var result = validate("#modal");
+		if(result) {
+			$("#formNameTitle").text($("#modal #formNameTxtCtrl").val());
+			$("#formPropTitleEn").val($("#modal #formNameTxtCtrl").val());
+			$("#formPropTitleAr").val($("#modal #formNameTxtCtrl").val());
+
+
+			if($("#modal #duplicateFormCtrl").is(':checked'))
+				loadForm($("#modal #existingFormCtrl").val(),true);
+			else
+				newForm();
+
+			$('#modal').modal('hide');
+		}
+	}
+</script>
+
+    
+	

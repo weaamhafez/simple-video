@@ -1,0 +1,19 @@
+<h2>Rating Properties</h2>
+{{#def.ctrlName}}
+{{#def.title}}
+{{#def.mandatoryOption}}
+<div class="propEl">
+    <label>Max Number of Stars</label>
+    <input type="text" class="form-control" name="ratingNumStars" data-integer="true" value="{{=it.ratingNumStars || ''}}" data-toggle="tooltip" data-placement="top" title="This takes whole integer value which indicates the number of stars to be displayed in the rating bar."/>
+</div>
+<div class="propEl">
+    <label>Initial Rating</label>
+    <input type="text" class="form-control"  name="ratingValue" data-float="true" value="{{=it.ratingValue || ''}}" data-toggle="tooltip" data-placement="top" title="This takes a float value input which will be the default rating to be displayed when the rating bar is loaded for the first time."/>
+</div>
+<div class="propEl">
+    <label>Increase/Decrease Stars by</label>
+    <input type="text" class="form-control" name="rangeStepSize" data-float="true" value="{{=it.rangeStepSize || ''}}" data-toggle="tooltip" data-placement="top" title="This takes a float value which is the step size of rate increase/decrease. For example, if we set step size to 1.0 then the rating values will be increased/decreased by 1 star."/>
+</div>
+{{#def.conditionExp}}
+{{#def.dynamicValue}}
+{{#def.commonActions}}

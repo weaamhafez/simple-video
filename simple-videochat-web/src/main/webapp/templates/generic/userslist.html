@@ -1,0 +1,19 @@
+<div>
+    Select Users with access to the form
+</div>
+<table>
+    <!-- {{for(var i=0;i<it.length;i++) { }} <!-- -->
+    <tr>
+        <td>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" value="{{=it[i].id }}"/>
+                </label>
+            </div>
+        </td>
+        <td>
+            {{=it[i].username }}
+        </td>
+    <tr>
+        {{ } }}
+</table>
